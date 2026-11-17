@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nhat (Louis) Nguyen</title>
+<meta name="description" content="Nhat (Louis) Nguyen - AI and software engineer, UNSW Sydney. LLM agent systems, applied ML, and research on robust vision-language-action models." />
+<link rel="icon" href="favicon.ico" sizes="32x32" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<style>
+  :root {
+    --page: #ffffff;
+    --band: #f5f5f7;
+    --card: #ffffff;
+    --ink: #1d1d1f;
+    --ink-2: #6e6e73;
+    --ink-3: #86868b;
+    --hairline: #d2d2d7;
+    --accent: #0071e3;
+    --accent-hover: #0077ed;
+    --link: #0066cc;
+    --green: #e3f5e8;  --green-ink: #1d7a3a;
+    --radius-card: 18px;
+    --shadow-card: 0 2px 12px rgb(0 0 0 / 0.06);
+    --shadow-hover: 0 6px 24px rgb(0 0 0 / 0.10);
+    --content: 980px;
+    --gutter: max(16px, min(5vw, 48px));
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color-scheme: light;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 17px/1.47 var(--font); letter-spacing: -0.022em;
+    -webkit-font-smoothing: antialiased; overflow-x: clip;
+  }
+  h1, h2, h3, p, ul { margin: 0; }
+  ul { padding: 0; list-style: none; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 6px; }
+  .container { width: min(100% - 2 * var(--gutter), var(--content)); margin-inline: auto; }
+
+  /* Top bar: the only translucent surface */
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgb(251 251 253 / 0.8);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  }
+  .topbar .container { display: flex; align-items: center; gap: 24px; height: 48px; }
+  .brand { font-weight: 600; font-size: 17px; color: var(--ink); white-space: nowrap; }
+  .brand:hover { text-decoration: none; }
+  .topbar nav { display: flex; gap: 20px; margin-left: auto; font-size: 12px; letter-spacing: -0.01em; overflow-x: auto; scrollbar-width: none; }
+  .topbar nav a { color: rgb(29 29 31 / 0.8); white-space: nowrap; }
+  .topbar nav a:hover { color: var(--ink); text-decoration: none; }
+
+  /* Intro */
+  .intro { padding: 64px 0 56px; display: grid; grid-template-columns: 200px 1fr; gap: 48px; align-items: center; }
+  .avatar {
+    width: 200px; aspect-ratio: 1; border-radius: 50%; object-fit: cover;
+    background: var(--band); display: grid; place-items: center;
+    font-size: 64px; font-weight: 600; color: var(--ink-3); letter-spacing: 0;
+    position: relative; overflow: hidden;
+  }
+  .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+  .intro h1 { margin-top: 6px; font-size: clamp(36px, 3vw + 18px, 56px); line-height: 1.07; font-weight: 600; letter-spacing: -0.015em; }
+  .intro .role { margin-top: 6px; font-size: 21px; line-height: 1.38; color: var(--ink-2); }
+  .bio { margin-top: 18px; max-width: 62ch; }
+  .bio p + p { margin-top: 10px; }
+  .chip { display: inline-flex; align-items: center; min-height: 26px; padding: 4px 12px; line-height: 1.35; border-radius: 980px; font-size: 12px; font-weight: 600; letter-spacing: 0; }
+  .chip.ok { background: var(--green); color: var(--green-ink); }
+  .buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .button {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 18px;
+    border-radius: 980px; font-size: 15px; transition: background-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+  .button:hover { text-decoration: none; }
+  .button.primary { background: var(--accent); color: #fff; }
+  .button.primary:hover { background: var(--accent-hover); }
+  .button.secondary { color: var(--link); box-shadow: inset 0 0 0 1px var(--hairline); }
+  .button.secondary:hover { box-shadow: inset 0 0 0 1px var(--accent); }
+
+  /* Sections */
+  section.block { padding: 56px 0; }
+  section.band { background: var(--band); }
+  .section-title { font-size: clamp(26px, 1.6vw + 18px, 36px); line-height: 1.1; font-weight: 600; letter-spacing: -0.01em; }
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .more { font-size: 15px; }
+  .more::after { content: " ›"; }
+
+  /* News */
+  .news { margin-top: 24px; }
+  .news li { display: grid; grid-template-columns: 96px 1fr; gap: 16px; padding: 14px 0; border-top: 1px solid var(--hairline); }
+  .news li:last-child { border-bottom: 1px solid var(--hairline); }
+  .news time { font-size: 14px; color: var(--ink-3); font-variant-numeric: tabular-nums; padding-top: 2px; }
+
+  /* Publications */
+  .pubs { margin-top: 24px; display: grid; gap: 16px; }
+  .pub { background: var(--card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 24px 28px; display: grid; grid-template-columns: 92px 1fr; gap: 20px; }
+  .venue { align-self: start; text-align: center; padding: 8px 6px; border-radius: 10px; background: var(--band); font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--ink-2); line-height: 1.3; }
+  .pub h3 { font-size: 19px; line-height: 1.3; font-weight: 600; letter-spacing: 0; }
+  .pub .authors { margin-top: 6px; font-size: 15px; color: var(--ink-2); }
+  .pub .authors b { color: var(--ink); font-weight: 600; }
+  .pub .meta { margin-top: 4px; font-size: 14px; color: var(--ink-3); font-style: italic; }
+
+  /* Projects */
+  .grid { display: grid; gap: 20px; grid-template-columns: repeat(2, 1fr); margin-top: 24px; }
+  .card {
+    background: var(--card); border-radius: var(--radius-card); padding: 28px;
+    box-shadow: inset 0 0 0 1px var(--hairline);
+    display: flex; flex-direction: column;
+    transition: box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .card .kicker { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+  .card h3 { margin-top: 8px; font-size: 21px; line-height: 1.19; font-weight: 600; letter-spacing: 0.011em; }
+  .card p { margin-top: 10px; color: var(--ink-2); font-size: 15px; line-height: 1.5; }
+  .tags { margin-top: auto; padding-top: 18px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .projects { margin-top: 24px; display: grid; gap: 20px; }
+  .card.feature { padding: 0; overflow: hidden; }
+  .card.feature img { display: block; width: 100%; aspect-ratio: 16 / 5; object-fit: cover; }
+  .feature-body { padding: 28px; display: flex; flex-direction: column; }
+  .card .links { margin-top: 14px; }
+  .tags span { font-size: 12px; padding: 3px 10px; border-radius: 980px; background: var(--band); color: var(--ink-2); letter-spacing: 0; }
+
+  /* Experience */
+  .timeline { margin-top: 24px; }
+  .job { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 20px 0; border-top: 1px solid var(--hairline); }
+  .job:last-child { border-bottom: 1px solid var(--hairline); }
+  .job .when { font-size: 14px; color: var(--ink-3); padding-top: 2px; }
+  .job h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .job .org { font-size: 15px; color: var(--ink-2); }
+  .job p.desc { margin-top: 6px; font-size: 15px; color: var(--ink-2); max-width: 64ch; }
+
+  /* Teaching + awards */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
+  .panel { background: var(--card); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 28px; }
+  .panel h3 { font-size: 21px; font-weight: 600; letter-spacing: 0.011em; }
+  .panel ul { margin-top: 14px; display: grid; gap: 12px; }
+  .panel li { font-size: 15px; color: var(--ink-2); }
+  .panel li b { color: var(--ink); font-weight: 600; }
+
+  /* Skills */
+  .skills { margin-top: 24px; display: grid; gap: 0; }
+  .skills div { display: grid; grid-template-columns: 170px 1fr; gap: 24px; padding: 14px 0; border-top: 1px solid var(--hairline); font-size: 15px; }
+  .skills div:last-child { border-bottom: 1px solid var(--hairline); }
+  .skills dt { font-weight: 600; }
+  .skills dd { margin: 0; color: var(--ink-2); }
+
+  footer { padding: 28px 0 40px; font-size: 12px; color: var(--ink-3); border-top: 1px solid rgb(0 0 0 / 0.06); background: var(--band); }
+  footer .container { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+  @media (max-width: 760px) {
+    .intro { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 40px; }
+    .avatar { width: 128px; font-size: 42px; }
+    .topbar nav { gap: 16px; }
+    .topbar nav .wide-only { display: none; }
+    .news li { grid-template-columns: 1fr; gap: 2px; }
+    .pub { grid-template-columns: 1fr; gap: 12px; padding: 22px; }
+    .venue { justify-self: start; padding: 4px 10px; }
+    .job, .skills div { grid-template-columns: 1fr; gap: 4px; }
+    .two-col, .grid { grid-template-columns: 1fr; }
+    .card.feature img { aspect-ratio: 16 / 8; }
+    .feature-body { padding: 22px; }
+    .brand .long { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <a class="brand" href="#top">Louis Nguyen</a>
+      <nav aria-label="Sections">
+        <a href="#news">News</a>
+        <a href="#publications">Publications</a>
+        <a href="#projects">Projects</a>
+        <a class="wide-only" href="#experience">Experience</a>
+        <a class="wide-only" href="#teaching">Teaching</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="intro container" aria-label="About">
+      <!-- Drop a square photo named photo.jpg next to this file; until then the LN monogram shows. -->
+      <div class="avatar"><span aria-hidden="true">LN</span><img src="photo.jpg" alt="Photo of Louis Nguyen" onerror="this.remove()" /></div>
+      <div>
+        <p class="eyebrow">UNSW Sydney · Computer Science (AI)</p>
+        <h1>Nhat (Louis) Nguyen</h1>
+        <p class="role">AI and software engineer</p>
+        <div class="bio">
+          <p>I build LLM agent systems that people actually use. My grading and misconduct-detection platforms run in courses at UNSW, with monitoring and cost tracking in production.</p>
+          <p>My honours research at the UNSW CRUISE Lab looks at why vision-language-action models rely on shortcuts, and how reinforcement-learning post-training can make them more robust. I also teach software engineering across six UNSW courses.</p>
+        </div>
+        <p style="margin-top:18px"><span class="chip ok">Available full-time from December 2026 · Sydney or anywhere in Australia</span></p>
+        <div class="buttons">
+          <a class="button primary" href="cv.pdf">Download CV</a>
+          <a class="button secondary" href="mailto:ndmn004@gmail.com">Email</a>
+          <a class="button secondary" href="https://github.com/LouisNguyen1409">GitHub</a>
+          <a class="button secondary" href="https://www.linkedin.com/in/nhatnguyen04/">LinkedIn</a>
+          <a class="button secondary" href="https://scholar.google.com.au/citations?user=ObArQbMAAAAJ&amp;hl=en">Google Scholar</a>
+          <a class="button secondary" href="https://huggingface.co/Louisnguyen">Hugging Face</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="block band" id="news">
+      <div class="container">
+        <h2 class="section-title">News</h2>
+        <ul class="news">
+          <li><time>Oct 2026</time><span>Launched <b><a href="https://get.koiya.workers.dev/">Koiya</a></b>, a living koi pond for the desktop on macOS and Windows.</span></li>
+          <li><time>2026</time><span>First-author full paper accepted at <b>IEEE TALE 2026</b> on detecting AI-generated code, plus a co-authored systematic review at <b>AAEE 2026</b>.</span></li>
+          <li><time>2025</time><span>Two LLM grading platforms I built, for theses and for presentations and debates, went into production use in UNSW courses.</span></li>
+          <li><time>May 2025</time><span>Joined UNSW CSE as a Casual Academic, teaching across six software engineering courses.</span></li>
+          <li><time>Sep 2024</time><span>Joined P2AgentX as an Applied Machine Learning Engineer, working on AI agents and computer vision for solar farms.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="publications">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Publications</h2>
+          <a class="more" href="https://scholar.google.com.au/citations?user=ObArQbMAAAAJ&amp;hl=en">Google Scholar</a>
+        </div>
+        <div class="pubs">
+          <article class="pub">
+            <div class="venue">IEEE<br />TALE 2026</div>
+            <div>
+              <h3>Student or Machine? Detecting AI-Generated Code Through Comparison with Matched Invigilated Assessments</h3>
+              <p class="authors"><b>D. M. N. Nguyen</b>, R. Hamadi</p>
+              <p class="meta">IEEE International Conference on Teaching, Assessment, and Learning for Engineering (TALE), 2026. Full paper, accepted.</p>
+            </div>
+          </article>
+          <article class="pub">
+            <div class="venue">AAEE<br />2026</div>
+            <div>
+              <h3>Detecting and Preventing Unauthorised GenAI Code Use in Programming Courses: A Focused Systematic Review for Engineering Education</h3>
+              <p class="authors">R. Hamadi, <b>D. M. N. Nguyen</b></p>
+              <p class="meta">Australasian Association for Engineering Education Conference (AAEE), 2026. Accepted.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="block band" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Projects</h2>
+          <a class="more" href="https://github.com/LouisNguyen1409?tab=repositories">More on GitHub</a>
+        </div>
+        <div class="projects">
+          <article class="card feature">
+            <img src="img/two-screens.jpg" alt="Koi swimming in one pond that spans two desktop screens, with lily pads, lotus flowers and duckweed" loading="lazy" />
+            <div class="feature-body">
+              <p class="kicker">Side project · macOS and Windows</p>
+              <h3>Koiya: a living pond for your desktop</h3>
+              <p>Realistic koi that swim behind your desktop icons. Twenty koi varieties, light that moves from morning to moonlight, feeding and leaping, and one pond that spans every screen, with ambient sound. A TypeScript and three.js engine runs inside native apps for each platform, with free and full editions.</p>
+              <div class="tags"><span>TypeScript</span><span>three.js</span><span>Swift</span><span>macOS</span><span>Windows</span></div>
+              <p class="links"><a class="more" href="https://get.koiya.workers.dev/">Visit the site</a></p>
+            </div>
+          </article>
+          <article class="card">
+            <p class="kicker">AI security research</p>
+            <h3>Prompt injection evaluation framework</h3>
+            <p>A framework for testing how LLMs hold up against prompt injection and jailbreaks. It runs 17+ attack methods from a library of 2,500+ templates against models from providers including Anthropic, OpenAI, Google, DeepSeek and xAI, and scores responses with an LLM judge, using asynchronous, configurable concurrency.</p>
+            <div class="tags"><span>Python</span><span>asyncio</span><span>LLM-as-judge</span><span>AI safety</span></div>
+            <p class="links"><a class="more" href="https://github.com/LouisNguyen1409/Prompt_Injection_Security">View on GitHub</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="experience">
+      <div class="container">
+        <h2 class="section-title">Experience</h2>
+        <div class="timeline">
+          <div class="job">
+            <p class="when">Mar 2026 - Nov 2026</p>
+            <div>
+              <h3>Honours Thesis</h3>
+              <p class="org">UNSW CRUISE Lab</p>
+              <p class="desc">Counterfactual debiasing of vision-language-action models via RL post-training, on UNSW Katana HPC (NVIDIA H200).</p>
+            </div>
+          </div>
+          <div class="job">
+            <p class="when">May 2025 - Present</p>
+            <div>
+              <h3>Artificial Intelligence Researcher</h3>
+              <p class="org">UNSW School of Computer Science and Engineering</p>
+              <p class="desc">Transformer-based detector for AI-generated code in coursework, using code embeddings and vector retrieval for per-submission confidence, plus interview questions for tutors. Deployed in UNSW courses; first-author paper at IEEE TALE 2026.</p>
+            </div>
+          </div>
+          <div class="job">
+            <p class="when">May 2025 - Present</p>
+            <div>
+              <h3>Casual Academic</h3>
+              <p class="org">UNSW School of Computer Science and Engineering</p>
+              <p class="desc">Course admin and tutor across six software engineering courses (see <a href="#teaching">Teaching</a>).</p>
+            </div>
+          </div>
+          <div class="job">
+            <p class="when">Aug 2025 - Nov 2025</p>
+            <div>
+              <h3>Research Assistant (Applied ML Engineering)</h3>
+              <p class="org">UNSW School of Information Systems and Technology Management</p>
+              <p class="desc">Audio-input grading platform for presentations and debates: Whisper transcription feeds LangGraph agents that return rubric scores, feedback and evidence. React, FastAPI and Pydantic on Google Cloud Run, in production use in UNSW courses.</p>
+            </div>
+          </div>
+          <div class="job">
+            <p class="when">May 2025 - Dec 2025</p>
+            <div>
+              <h3>Research Assistant (Applied ML Engineering)</h3>
+              <p class="org">UNSW School of Computer Science and Engineering</p>
+              <p class="desc">Multimodal LLM grading platform for 100+ page theses and reports, with rubric scores, written feedback and PDF-grounded evidence. Tutor approve or reject signals refine the grader through a GRPO-style online loop. Monitoring, error logging and token cost tracking in production.</p>
+            </div>
+          </div>
+          <div class="job">
+            <p class="when">Sep 2024 - Sep 2025</p>
+            <div>
+              <h3>Applied Machine Learning Engineer</h3>
+              <p class="org">P2AgentX</p>
+              <p class="desc">YOLO models for solar-panel faults (thermal hotspots, unplugged wiring, dust) and forecasting models for energy yield and revenue. Full-stack delivery: React on AWS Amplify, LangGraph agent backend on AWS, and integration with a four-legged robot for on-site maintenance.</p>
+            </div>
+          </div>
+          <div class="job">
+            <p class="when">Sep 2024 - Sep 2025</p>
+            <div>
+              <h3>Research and Development Software Engineer</h3>
+              <p class="org">UNSW School of Photovoltaic and Renewable Energy Engineering</p>
+              <p class="desc">Diagnostic pipeline for solar PV maintenance: YOLO detections feed a classifier and RAG system that give technicians fault descriptions and remediation steps. Deployed on AWS.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block band" id="teaching">
+      <div class="container">
+        <h2 class="section-title">Teaching and awards</h2>
+        <div class="two-col">
+          <div class="panel">
+            <h3>Teaching at UNSW</h3>
+            <ul>
+              <li><b>COMP3900/9900</b> Computer Science Project, course admin and tutor</li>
+              <li><b>COMP9820</b> Software Project Management, course admin and tutor</li>
+              <li><b>COMP1531</b> Software Engineering Fundamentals, tutor</li>
+              <li><b>COMP6771</b> Advanced C++ Programming, tutor</li>
+              <li><b>COMP6080</b> Web Front-End Programming, tutor</li>
+              <li><b>COMP9021</b> Principles of Programming, tutor</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Education and awards</h3>
+            <ul>
+              <li><b>Bachelor of Advanced Computer Science (Honours), AI</b><br />UNSW Sydney, 2023 - 2026. WAM 84.63 (High Distinction).</li>
+              <li><b>Taste of Research Scholarship</b><br />UNSW Faculty of Engineering, 2024 and 2025</li>
+              <li><b>UNSW Global Academic Award</b><br />UNSW Sydney, 2022</li>
+              <li><b>ICPC South Pacific Regional</b><br />Honorable mention 2023, Certificate of Achievement 2024</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="skills">
+      <div class="container">
+        <h2 class="section-title">Skills</h2>
+        <dl class="skills">
+          <div><dt>Languages</dt><dd>Python, TypeScript, JavaScript, SQL, C, C++, Java, Rust</dd></div>
+          <div><dt>LLM and agents</dt><dd>LangGraph, LangChain, RAG, vector search, tool calling, MCP servers, LLM evaluation, LoRA and DPO fine-tuning, vLLM, Whisper</dd></div>
+          <div><dt>Machine learning</dt><dd>PyTorch, Hugging Face, scikit-learn, YOLO, OpenCV, Weights &amp; Biases, RL post-training (PPO, GRPO, DPO)</dd></div>
+          <div><dt>Backend and web</dt><dd>FastAPI, Node.js, Express, PostgreSQL, Redis, React, Vite, pytest, Jest, Cypress</dd></div>
+          <div><dt>Cloud</dt><dd>AWS, Google Cloud Run, Docker, Kubernetes, Terraform, GitHub Actions, GitLab CI</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <span>© 2026 Nhat (Louis) Nguyen</span>
+      <span>Sydney, Australia</span>
+    </div>
+  </footer>
+</body>
+</html>
